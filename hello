@@ -36,6 +36,11 @@ get '/profile/:name' => sub {
     $self->render('profile');
 };
 
+get '/fizzbuzz' => sub {
+    my $self = shift;
+    $self->render('fizzbuzz');
+};
+
 app->start;
 __DATA__
 
@@ -57,5 +62,27 @@ Welcome to the Mojolicious real-time web framework!
 <body style='padding: 30px;'>
   私の名前は<%= $name %>です.<br>
   趣味は<%= $hobby %>で, 好きなプログラミング言語は<%= $language %>です.
+</body>
+</html>
+
+@@ fizzbuzz.html.ep
+<html>
+<head><title>fizzbuzz</title></head>
+<body style='padding: 30px;'>
+% foreach(1 .. 100){
+%   if( $_ % 15 == 0){
+%= "fizzbuzz";
+%   }
+%   elsif($_ % 3 == 0){
+%= "fizz";
+%   }
+%   elsif($_ % 5 == 0){
+%= "buzz"; 
+%   }
+%   else{
+%=  $_; 
+%   }
+<br>
+% }
 </body>
 </html>
