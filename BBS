@@ -1,12 +1,18 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 
-# Documentation browser under "/perldoc"
-plugin 'PODRenderer';
-
 get '/' => sub {
   my $self = shift;
+  my $entry = $self->param('body') || '';
+  $self->stash(entry => $entry);
   $self->render('index');
+};
+
+post '/post' => sub {
+  my $self = shift;
+  my $entry = $self->param('body') || '';
+  $self->stash(entry => $entry);
+  $self->render('post');
 };
 
 app->start;
@@ -14,8 +20,22 @@ __DATA__
 
 @@ index.html.ep
 % layout 'default';
-% title 'Welcome';
-Welcome to the Mojolicious real-time web framework!
+% title 'BBS';
+
+%= form_for '/post' => method => 'POST' => begin
+  %= text_field 'body'
+  %= submit_button '投稿する'
+% end
+
+@@ post.html.ep
+% layout 'default';
+% title 'BBS';
+
+%= form_for '/post' => method => 'POST' => begin
+  %= text_field 'body'
+  %= submit_button '投稿する'
+% end
+<p><%= $entry %></p>
 
 @@ layouts/default.html.ep
 <!DOCTYPE html>
